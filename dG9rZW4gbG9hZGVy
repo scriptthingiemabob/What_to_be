@@ -1,106 +1,68 @@
-local function _0xdec(_0xstr,_0xkey)
-    local _0xout=""
-    for _0xi=1,#_0xstr do
-        local _0xc=string.byte(_0xstr,_0xi)
-        local _0xk=string.byte(_0xkey,((_0xi-1)%#_0xkey)+1)
-        _0xout=_0xout..string.char(_0xc~_0xk)
-    end
-    return _0xout
-end
+local function _0xdec(_0xstr,_0xkey) local _0xout="" for _0xi=1,#_0xstr do local _0xc=string.byte(_0xstr,_0xi) local _0xk=string.byte(_0xkey,((_0xi-1)%#_0xkey)+1) _0xout=_0xout..string.char(_0xc~_0xk) end return _0xout end
 local _0xurl=_0xdec("\x1e\x12\x0c\x1d\x0a\x06\x17\x1c\x0c\x0d\x0b\x1d\x11\x0c\x0e\x1e\x07\x08\x1d\x08\x0d\x1a\x0d\x07\x1d\x08\x0b\x0c\x03","\x6b\x79")
-local _0x2b=game:GetService("Players").LocalPlayer
-local _0x3c=_G.USER_TOKEN
-if not _0x3c then
-    local _0x4d=Instance.new("ScreenGui")
-    _0x4d.Name="TokenPrompt"
-    _0x4d.Parent=_0x2b.PlayerGui
-    local _0x5e=Instance.new("Frame")
-    _0x5e.Size=UDim2.new(0,320,0,160)
-    _0x5e.Position=UDim2.new(0.5,-160,0.5,-80)
-    _0x5e.BackgroundColor3=Color3.fromRGB(25,25,35)
-    _0x5e.BorderSizePixel=0
-    _0x5e.ClipsDescendants=true
-    _0x5e.Parent=_0x4d
-    local _0x6f=Instance.new("TextLabel")
-    _0x6f.Size=UDim2.new(1,0,0,30)
-    _0x6f.Position=UDim2.new(0,0,0,10)
-    _0x6f.Text="Enter proxy token:"
-    _0x6f.TextColor3=Color3.new(1,1,1)
-    _0x6f.BackgroundTransparency=1
-    _0x6f.Font=Enum.Font.GothamBold
-    _0x6f.TextSize=18
-    _0x6f.TextScaled=false
-    _0x6f.Parent=_0x5e
-    local _0x7g=Instance.new("TextBox")
-    _0x7g.Size=UDim2.new(1,-40,0,35)
-    _0x7g.Position=UDim2.new(0,20,0,45)
-    _0x7g.PlaceholderText="Type token here..."
-    _0x7g.Text=""
-    _0x7g.BackgroundColor3=Color3.fromRGB(50,50,65)
-    _0x7g.TextColor3=Color3.new(1,1,1)
-    _0x7g.Font=Enum.Font.Gotham
-    _0x7g.TextSize=16
-    _0x7g.ClearTextOnFocus=false
-    _0x7g.Parent=_0x5e
-    local _0x8h=Instance.new("TextButton")
-    _0x8h.Size=UDim2.new(0,120,0,40)
-    _0x8h.Position=UDim2.new(0.5,-60,0,100)
-    _0x8h.Text="Submit"
-    _0x8h.BackgroundColor3=Color3.fromRGB(70,130,255)
-    _0x8h.TextColor3=Color3.new(1,1,1)
-    _0x8h.Font=Enum.Font.GothamBold
-    _0x8h.TextSize=18
-    _0x8h.Parent=_0x5e
-    local _0x9i=false
-    local function _0xaj()
-        if _0x7g.Text~=""then
-            _0x3c=_0x7g.Text
-            _0x9i=true
-        else
-            _0x6f.Text="Cannot be empty!"
-            _0x6f.TextColor3=Color3.fromRGB(255,80,80)
-            wait(1.5)
-            _0x6f.Text="Enter proxy token:"
-            _0x6f.TextColor3=Color3.new(1,1,1)
-        end
-    end
-    _0x8h.MouseButton1Click:Connect(_0xaj)
-    local function _0xbk(_0xcl)
-        if _0xcl and _0x7g.Text~=""then
-            _0x3c=_0x7g.Text
-            _0x9i=true
-        end
-    end
-    _0x7g.FocusLost:Connect(_0xbk)
-    repeat wait(0.1) until _0x9i or not _0x4d.Parent
-    if not _0x4d.Parent then
-        _0x2b:Kick("wrong token bucko")
-        return
-    end
-    _0x4d:Destroy()
+local _0xpl=game:GetService("Players").LocalPlayer
+local _0xt=_G.USER_TOKEN
+if not _0xt then
+    local _0xg=Instance.new("ScreenGui")
+    _0xg.Name="TokenPrompt"
+    _0xg.Parent=_0xpl.PlayerGui
+    local _0xf=Instance.new("Frame")
+    _0xf.Size=UDim2.new(0,320,0,160)
+    _0xf.Position=UDim2.new(0.5,-160,0.5,-80)
+    _0xf.BackgroundColor3=Color3.fromRGB(25,25,35)
+    _0xf.BorderSizePixel=0
+    _0xf.ClipsDescendants=true
+    _0xf.Parent=_0xg
+    local _0xl=Instance.new("TextLabel")
+    _0xl.Size=UDim2.new(1,0,0,30)
+    _0xl.Position=UDim2.new(0,0,0,10)
+    _0xl.Text="Enter proxy token:"
+    _0xl.TextColor3=Color3.new(1,1,1)
+    _0xl.BackgroundTransparency=1
+    _0xl.Font=Enum.Font.GothamBold
+    _0xl.TextSize=18
+    _0xl.TextScaled=false
+    _0xl.Parent=_0xf
+    local _0xtb=Instance.new("TextBox")
+    _0xtb.Size=UDim2.new(1,-40,0,35)
+    _0xtb.Position=UDim2.new(0,20,0,45)
+    _0xtb.PlaceholderText="Type token here..."
+    _0xtb.Text=""
+    _0xtb.BackgroundColor3=Color3.fromRGB(50,50,65)
+    _0xtb.TextColor3=Color3.new(1,1,1)
+    _0xtb.Font=Enum.Font.Gotham
+    _0xtb.TextSize=16
+    _0xtb.ClearTextOnFocus=false
+    _0xtb.Parent=_0xf
+    local _0xbtn=Instance.new("TextButton")
+    _0xbtn.Size=UDim2.new(0,120,0,40)
+    _0xbtn.Position=UDim2.new(0.5,-60,0,100)
+    _0xbtn.Text="Submit"
+    _0xbtn.BackgroundColor3=Color3.fromRGB(70,130,255)
+    _0xbtn.TextColor3=Color3.new(1,1,1)
+    _0xbtn.Font=Enum.Font.GothamBold
+    _0xbtn.TextSize=18
+    _0xbtn.Parent=_0xf
+    local _0xsub=false
+    _0xbtn.MouseButton1Click:Connect(function()
+        if _0xtb.Text~=""then _0xt=_0xtb.Text _0xsub=true else _0xl.Text="Cannot be empty!" _0xl.TextColor3=Color3.fromRGB(255,80,80) wait(1.5) _0xl.Text="Enter proxy token:" _0xl.TextColor3=Color3.new(1,1,1) end
+    end)
+    _0xtb.FocusLost:Connect(function(_0xenter)
+        if _0xenter and _0xtb.Text~=""then _0xt=_0xtb.Text _0xsub=true end
+    end)
+    repeat wait(0.1) until _0xsub or not _0xg.Parent
+    if not _0xg.Parent then _0xpl:Kick("wrong token bucko") return end
+    _0xg:Destroy()
 end
-local function _0xdm(_0xen)
-    return _0xen:gsub("%%","%%25")
-end
-local _0xfo=_0xdm(_0x3c)
-local _0xgp=_0xurl.."/verify?token=".._0xfo
-local _0xhq,_0xir=pcall(function()
-    return game:HttpGet(_0xgp)
-end)
-if not _0xhq or _0xir~="valid"then
-    _0x2b:Kick("wrong token bucko")
-    return
-end
-_G.USER_TOKEN=_0x3c
-local _0xjs=_0xurl.."/?token=".._0xfo
-local _0xkt,_0xlu=pcall(function()
-    return game:HttpGet(_0xjs)
-end)
-if not _0xkt then
-    error("Failed to fetch script: "..tostring(_0xlu))
-end
-local _0xmv,_0xnw=loadstring(_0xlu)
-if not _0xmv then
-    error("Loadstring error: "..tostring(_0xnw))
-end
-_0xmv()
+local function _0xenc(_0xstr) return _0xstr:gsub("%%","%%25") end
+local _0xtok=_0xenc(_0xt)
+local _0xv=_0xurl.."/verify?token=".._0xtok
+local _0xok,_0xresp=pcall(function() return game:HttpGet(_0xv) end)
+if not _0xok or _0xresp~="valid" then _0xpl:Kick("wrong token bucko") return end
+_G.USER_TOKEN=_0xt
+local _0xm=_0xurl.."/?token=".._0xtok
+local _0xscr,_0xerr=pcall(function() return game:HttpGet(_0xm) end)
+if not _0xscr then error("Failed to fetch script: "..tostring(_0xerr)) end
+local _0xfn,_0xle=loadstring(_0xerr)
+if not _0xfn then error("Loadstring error: "..tostring(_0xle)) end
+_0xfn()
