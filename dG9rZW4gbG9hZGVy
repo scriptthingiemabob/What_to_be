@@ -8,7 +8,6 @@ local function decode(str, key)
     return out
 end
 
--- Hidden Vercel URL (XOR‑encoded)
 local PROXY_URL = decode(
     "\x1e\x12\x0c\x1d\x0a\x06\x17\x1c\x0c\x0d\x0b\x1d\x11\x0c\x0e\x1e\x07\x08\x1d\x08\x0d\x1a\x0d\x07\x1d\x08\x0b\x0c\x03",
     "\x6b\x79"
@@ -17,7 +16,6 @@ local PROXY_URL = decode(
 local player = game:GetService("Players").LocalPlayer
 local token = _G.USER_TOKEN
 
--- If no saved token, show GUI prompt
 if not token then
     local gui = Instance.new("ScreenGui")
     gui.Name = "TokenPrompt"
@@ -39,6 +37,7 @@ if not token then
     label.BackgroundTransparency = 1
     label.Font = Enum.Font.GothamBold
     label.TextSize = 18
+    label.TextScaled = false
     label.Parent = frame
 
     local textbox = Instance.new("TextBox")
@@ -97,15 +96,13 @@ if not token then
     gui:Destroy()
 end
 
--- Encode the token for URL (escape %)
 local function urlEncode(str)
     return str:gsub("%%", "%%25")
 end
 
 local encodedToken = urlEncode(token)
-
--- Verify token with the proxy
 local verifyURL = PROXY_URL .. "/verify?token=" .. encodedToken
+
 local success, response = pcall(function()
     return game:HttpGet(verifyURL)
 end)
@@ -115,11 +112,10 @@ if not success or response ~= "valid" then
     return
 end
 
--- Save token for future runs
 _G.USER_TOKEN = token
 
--- Fetch the main obfuscated script
 local mainURL = PROXY_URL .. "/?token=" .. encodedToken
+
 local scriptSuccess, scriptContent = pcall(function()
     return game:HttpGet(mainURL)
 end)
@@ -129,9 +125,9 @@ if not scriptSuccess then
 end
 
 local scriptFn, loadErr = loadstring(scriptContent)
+
 if not scriptFn then
     error("Loadstring error: " .. tostring(loadErr))
 end
 
--- Execute the main script
 scriptFn()
