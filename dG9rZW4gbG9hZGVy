@@ -1,133 +1,108 @@
-local function decode(str, key)
-    local out = ""
-    for i = 1, #str do
-        local c = string.byte(str, i)
-        local k = string.byte(key, ((i - 1) % #key) + 1)
-        out = out .. string.char(c ~ k)
-    end
-    return out
-end
+local h={"https://","tungggggggg",".vercel.app"}
+local i=table.concat(h)
+local j=game:GetService("Players").LocalPlayer
+local k=_G.USER_TOKEN
 
-local PROXY_URL = decode(
-    "\x1e\x12\x0c\x1d\x0a\x06\x17\x1c\x0c\x0d\x0b\x1d\x11\x0c\x0e\x1e\x07\x08\x1d\x08\x0d\x1a\x0d\x07\x1d\x08\x0b\x0c\x03",
-    "\x6b\x79"
-)
-
-local player = game:GetService("Players").LocalPlayer
-local token = _G.USER_TOKEN
-
-if not token then
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "TokenPrompt"
-    gui.Parent = player.PlayerGui
-
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 320, 0, 160)
-    frame.Position = UDim2.new(0.5, -160, 0.5, -80)
-    frame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-    frame.BorderSizePixel = 0
-    frame.ClipsDescendants = true
-    frame.Parent = gui
-
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 0, 30)
-    label.Position = UDim2.new(0, 0, 0, 10)
-    label.Text = "Enter proxy token:"
-    label.TextColor3 = Color3.new(1, 1, 1)
-    label.BackgroundTransparency = 1
-    label.Font = Enum.Font.GothamBold
-    label.TextSize = 18
-    label.TextScaled = false
-    label.Parent = frame
-
-    local textbox = Instance.new("TextBox")
-    textbox.Size = UDim2.new(1, -40, 0, 35)
-    textbox.Position = UDim2.new(0, 20, 0, 45)
-    textbox.PlaceholderText = "Type token here..."
-    textbox.Text = ""
-    textbox.BackgroundColor3 = Color3.fromRGB(50, 50, 65)
-    textbox.TextColor3 = Color3.new(1, 1, 1)
-    textbox.Font = Enum.Font.Gotham
-    textbox.TextSize = 16
-    textbox.ClearTextOnFocus = false
-    textbox.Parent = frame
-
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0, 120, 0, 40)
-    button.Position = UDim2.new(0.5, -60, 0, 100)
-    button.Text = "Submit"
-    button.BackgroundColor3 = Color3.fromRGB(70, 130, 255)
-    button.TextColor3 = Color3.new(1, 1, 1)
-    button.Font = Enum.Font.GothamBold
-    button.TextSize = 18
-    button.Parent = frame
-
-    local submitted = false
-
-    button.MouseButton1Click:Connect(function()
-        if textbox.Text ~= "" then
-            token = textbox.Text
-            submitted = true
+if not k then
+    local l=Instance.new("ScreenGui")
+    l.Name="TokenPrompt"
+    l.Parent=j.PlayerGui
+    local m=Instance.new("Frame")
+    m.Size=UDim2.new(0,320,0,160)
+    m.Position=UDim2.new(0.5,-160,0.5,-80)
+    m.BackgroundColor3=Color3.fromRGB(25,25,35)
+    m.BorderSizePixel=0
+    m.ClipsDescendants=true
+    m.Parent=l
+    local n=Instance.new("TextLabel")
+    n.Size=UDim2.new(1,0,0,30)
+    n.Position=UDim2.new(0,0,0,10)
+    n.Text="Enter proxy token:"
+    n.TextColor3=Color3.new(1,1,1)
+    n.BackgroundTransparency=1
+    n.Font=Enum.Font.GothamBold
+    n.TextSize=18
+    n.TextScaled=false
+    n.Parent=m
+    local o=Instance.new("TextBox")
+    o.Size=UDim2.new(1,-40,0,35)
+    o.Position=UDim2.new(0,20,0,45)
+    o.PlaceholderText="Type token here..."
+    o.Text=""
+    o.BackgroundColor3=Color3.fromRGB(50,50,65)
+    o.TextColor3=Color3.new(1,1,1)
+    o.Font=Enum.Font.Gotham
+    o.TextSize=16
+    o.ClearTextOnFocus=false
+    o.Parent=m
+    local p=Instance.new("TextButton")
+    p.Size=UDim2.new(0,120,0,40)
+    p.Position=UDim2.new(0.5,-60,0,100)
+    p.Text="Submit"
+    p.BackgroundColor3=Color3.fromRGB(70,130,255)
+    p.TextColor3=Color3.new(1,1,1)
+    p.Font=Enum.Font.GothamBold
+    p.TextSize=18
+    p.Parent=m
+    local q=false
+    p.MouseButton1Click:Connect(function()
+        if o.Text~="" then
+            k=o.Text
+            q=true
         else
-            label.Text = "Cannot be empty!"
-            label.TextColor3 = Color3.fromRGB(255, 80, 80)
+            n.Text="Cannot be empty!"
+            n.TextColor3=Color3.fromRGB(255,80,80)
             wait(1.5)
-            label.Text = "Enter proxy token:"
-            label.TextColor3 = Color3.new(1, 1, 1)
+            n.Text="Enter proxy token:"
+            n.TextColor3=Color3.new(1,1,1)
         end
     end)
-
-    textbox.FocusLost:Connect(function(enterPressed)
-        if enterPressed and textbox.Text ~= "" then
-            token = textbox.Text
-            submitted = true
+    o.FocusLost:Connect(function(r)
+        if r and o.Text~="" then
+            k=o.Text
+            q=true
         end
     end)
-
-    while not submitted and gui.Parent do
+    while not q and l.Parent do
         wait(0.1)
     end
-
-    if not gui.Parent then
-        player:Kick("wrong token bucko")
+    if not l.Parent then
+        j:Kick("wrong token bucko")
         return
     end
-
-    gui:Destroy()
+    l:Destroy()
 end
 
-local function urlEncode(str)
-    return str:gsub("%%", "%%25")
+local function s(t)
+    return t:gsub("%%","%%25")
 end
 
-local encodedToken = urlEncode(token)
-local verifyURL = PROXY_URL .. "/verify?token=" .. encodedToken
-
-local success, response = pcall(function()
-    return game:HttpGet(verifyURL)
+local u=s(k)
+local v=i.."/verify?token="..u
+local w,x=pcall(function()
+    return game:HttpGet(v)
 end)
 
-if not success or response ~= "valid" then
-    player:Kick("wrong token bucko")
+if not w or x~="valid" then
+    j:Kick("wrong token bucko")
     return
 end
 
-_G.USER_TOKEN = token
+_G.USER_TOKEN=k
 
-local mainURL = PROXY_URL .. "/?token=" .. encodedToken
-
-local scriptSuccess, scriptContent = pcall(function()
-    return game:HttpGet(mainURL)
+local y=i.."/?token="..u
+local z,aa=pcall(function()
+    return game:HttpGet(y)
 end)
 
-if not scriptSuccess then
-    error("Failed to fetch script: " .. tostring(scriptContent))
+if not z then
+    error("Failed to fetch script: "..tostring(aa))
 end
 
-local scriptFn, loadErr = loadstring(scriptContent)
+local ab,ac=loadstring(aa)
 
-if not scriptFn then
-    error("Loadstring error: " .. tostring(loadErr))
+if not ab then
+    error("Loadstring error: "..tostring(ac))
 end
 
-scriptFn()
+ab()
