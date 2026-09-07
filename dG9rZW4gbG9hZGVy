@@ -73,36 +73,57 @@ if not k then
     l:Destroy()
 end
 
-local function s(t)
-    return t:gsub("%%","%%25")
+local function urlEncode(str)
+    return tostring(str):gsub("%%","%%25"):gsub(" ","%20")
 end
 
-local u=s(k)
-local v=i.."/verify?token="..u
-local w,x=pcall(function()
-    return game:HttpGet(v)
+local function getHWID()
+    if syn and syn.crypt and syn.crypt.hwid then
+        return syn.crypt.hwid()
+    elseif getexecutorname and getexecutorname() == "Delta" then
+        return (syn and syn.crypt and syn.crypt.hwid) or "unknown"
+    else
+        return "unknown"
+    end
+end
+
+local token = k
+local hwid = getHWID()
+local tokenEnc = urlEncode(token)
+local hwidEnc = urlEncode(hwid)
+
+local verifyURL = i.."/verify?token="..tokenEnc.."&hwid="..hwidEnc
+local ok, resp = pcall(function()
+    return game:HttpGet(verifyURL)
 end)
 
-if not w or x~="valid" then
+if not ok then
     j:Kick("wrong token bucko")
     return
 end
 
-_G.USER_TOKEN=k
+if resp == "wrong hwid" then
+    j:Kick("This key is already bound to another device.")
+    return
+elseif resp ~= "valid" then
+    j:Kick("wrong token bucko")
+    return
+end
 
-local y=i.."/?token="..u
-local z,aa=pcall(function()
-    return game:HttpGet(y)
+_G.USER_TOKEN = token
+
+local mainURL = i.."/?token="..tokenEnc.."&hwid="..hwidEnc
+local scrOk, scr = pcall(function()
+    return game:HttpGet(mainURL)
 end)
 
-if not z then
-    error("Failed to fetch script: "..tostring(aa))
+if not scrOk then
+    error("Failed to fetch script: "..tostring(scr))
 end
 
-local ab,ac=loadstring(aa)
-
-if not ab then
-    error("Loadstring error: "..tostring(ac))
+local fn, err = loadstring(scr)
+if not fn then
+    error("Loadstring error: "..tostring(err))
 end
 
-ab()
+fn()
