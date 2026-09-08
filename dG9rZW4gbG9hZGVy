@@ -1,11 +1,76 @@
-local h={"https://","tungggggggg",".vercel.app"}
+local h={"https://","yesnt-psi",".vercel.app/api"}
 local i=table.concat(h)
 local j=game:GetService("Players").LocalPlayer
 local k=_G.USER_TOKEN
 
 if not k then
-    -- ... (same GUI code as before) ...
-    -- (I'll skip pasting the full GUI for brevity – assume it's the same)
+    local l=Instance.new("ScreenGui")
+    l.Name="TokenPrompt"
+    l.Parent=j.PlayerGui
+    local m=Instance.new("Frame")
+    m.Size=UDim2.new(0,320,0,160)
+    m.Position=UDim2.new(0.5,-160,0.5,-80)
+    m.BackgroundColor3=Color3.fromRGB(25,25,35)
+    m.BorderSizePixel=0
+    m.ClipsDescendants=true
+    m.Parent=l
+    local n=Instance.new("TextLabel")
+    n.Size=UDim2.new(1,0,0,30)
+    n.Position=UDim2.new(0,0,0,10)
+    n.Text="Enter proxy token:"
+    n.TextColor3=Color3.new(1,1,1)
+    n.BackgroundTransparency=1
+    n.Font=Enum.Font.GothamBold
+    n.TextSize=18
+    n.TextScaled=false
+    n.Parent=m
+    local o=Instance.new("TextBox")
+    o.Size=UDim2.new(1,-40,0,35)
+    o.Position=UDim2.new(0,20,0,45)
+    o.PlaceholderText="Type token here..."
+    o.Text=""
+    o.BackgroundColor3=Color3.fromRGB(50,50,65)
+    o.TextColor3=Color3.new(1,1,1)
+    o.Font=Enum.Font.Gotham
+    o.TextSize=16
+    o.ClearTextOnFocus=false
+    o.Parent=m
+    local p=Instance.new("TextButton")
+    p.Size=UDim2.new(0,120,0,40)
+    p.Position=UDim2.new(0.5,-60,0,100)
+    p.Text="Submit"
+    p.BackgroundColor3=Color3.fromRGB(70,130,255)
+    p.TextColor3=Color3.new(1,1,1)
+    p.Font=Enum.Font.GothamBold
+    p.TextSize=18
+    p.Parent=m
+    local q=false
+    p.MouseButton1Click:Connect(function()
+        if o.Text~="" then
+            k=o.Text
+            q=true
+        else
+            n.Text="Cannot be empty!"
+            n.TextColor3=Color3.fromRGB(255,80,80)
+            wait(1.5)
+            n.Text="Enter proxy token:"
+            n.TextColor3=Color3.new(1,1,1)
+        end
+    end)
+    o.FocusLost:Connect(function(r)
+        if r and o.Text~="" then
+            k=o.Text
+            q=true
+        end
+    end)
+    while not q and l.Parent do
+        wait(0.1)
+    end
+    if not l.Parent then
+        j:Kick("wrong token bucko")
+        return
+    end
+    l:Destroy()
 end
 
 local function urlEncode(str)
@@ -27,29 +92,20 @@ local hwid = getHWID()
 local tokenEnc = urlEncode(token)
 local hwidEnc = urlEncode(hwid)
 
-print("Token: " .. token)
-print("HWID: " .. hwid)
-
 local verifyURL = i.."/verify?token="..tokenEnc.."&hwid="..hwidEnc
-print("Verify URL: " .. verifyURL)
-
 local ok, resp = pcall(function()
     return game:HttpGet(verifyURL)
 end)
 
 if not ok then
-    print("Verify request failed: " .. tostring(resp))
     j:Kick("wrong token bucko")
     return
 end
-
-print("Verify response: " .. tostring(resp))
 
 if resp == "wrong hwid" then
     j:Kick("This key is already bound to another device.")
     return
 elseif resp ~= "valid" then
-    print("Invalid response: " .. tostring(resp))
     j:Kick("wrong token bucko")
     return
 end
@@ -57,25 +113,17 @@ end
 _G.USER_TOKEN = token
 
 local mainURL = i.."/?token="..tokenEnc.."&hwid="..hwidEnc
-print("Main URL: " .. mainURL)
-
 local scrOk, scr = pcall(function()
     return game:HttpGet(mainURL)
 end)
 
 if not scrOk then
-    print("Failed to fetch script: " .. tostring(scr))
-    error("Failed to fetch script: " .. tostring(scr))
+    error("Failed to fetch script: "..tostring(scr))
 end
-
-print("Script fetched, length: " .. tostring(#scr))
 
 local fn, err = loadstring(scr)
 if not fn then
-    print("Loadstring error: " .. tostring(err))
-    error("Loadstring error: " .. tostring(err))
+    error("Loadstring error: "..tostring(err))
 end
 
-print("Script loaded successfully, executing...")
 fn()
-print("Script execution finished.")
